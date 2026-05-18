@@ -47,3 +47,48 @@ L’objectif n’est pas de créer un standard global de gouvernance IA, mais de
 ```
 
 L’objectif de measurement_surface n’est pas de prétendre observer l’intégralité du modèle ou de son raisonnement interne, mais de déclarer explicitement la surface de mesure réellement observable à partir de laquelle les signaux runtime sont produits.
+Tu pourras ajouter progressivement :
+
+## `/examples`
+Exemples de :
+- ALLOW
+- FLAG
+- drift
+- transitions de régime
+
+---
+
+## `/notes`
+Réflexions ouvertes sur :
+- continuity
+- unresolved_signals
+- degradation observationnelle
+- perturbations runtime
+
+---
+
+## `/cross-layer`
+Pour les liens futurs avec :
+- EVIDE
+- visibility_surface
+- unresolved_signals
+- boundary semantics
+
+---
+
+# Le point important
+
+Ce repo ne doit PAS devenir :
+> “la théorie ultime de l’IA”.
+
+😄
+
+Il doit rester :
+- simple,
+- lisible,
+- crédible,
+- extensible,
+- méthodologiquement propre.
+
+Et honnêtement :
+pour un V0, ce que tu fais là est déjà très sérieux.
