@@ -43,7 +43,7 @@ L’objectif n’est pas de créer un standard global de gouvernance IA, mais de
       "no_internal_reasoning_visibility"
     ]
   }
-}```
-
+}
+```
 
 L’objectif de measurement_surface n’est pas de prétendre observer l’intégralité du modèle ou de son raisonnement interne, mais de déclarer explicitement la surface de mesure réellement observable à partir de laquelle les signaux runtime sont produits.
