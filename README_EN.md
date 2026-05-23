@@ -1,4 +1,4 @@
-> 🇬🇧 **English version:** [README_EN.md](./README_EN.md)
+> 🇫🇷 **French version:** [README.md](./README.md)
 
 # Runtime Interoperability Contract
 
