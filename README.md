@@ -1,3 +1,5 @@
+> 🇫🇷 **French version:** [README.md](./README.md)
+
 # Runtime Interoperability Contract
 
 Sémantique minimale d’interopérabilité pour les signaux runtime d’observabilité et de gouvernance des systèmes IA.
