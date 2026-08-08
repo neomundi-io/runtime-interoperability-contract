@@ -1,34 +1,132 @@
-🇬🇧 **English version:** [README_EN.md](./README_EN.md)
+🇫🇷 **Version française :** [README_FR.md](./README_FR.md)
 
 # Runtime Interoperability Contract
 
-Sémantique minimale d’interopérabilité pour les signaux runtime d’observabilité et de gouvernance des systèmes IA.
+Minimal interoperability semantics for runtime measurement and governance signals across heterogeneous AI infrastructures.
 
 ---
 
-## Objectif
+## Purpose
 
-Ce dépôt explore des principes minimaux d’interopérabilité entre :
+This repository defines a minimal contract for exchanging runtime signals between independent AI infrastructure layers.
 
-- les couches d’observabilité runtime,
-- les systèmes de gouvernance / orchestration,
-- et les couches de qualification ou d’ancrage de preuve.
+It is designed to support interoperability between:
 
-L’objectif n’est pas de créer un standard global de gouvernance IA, mais de définir des signaux explicites, inspectables et interprétables entre couches indépendantes.
+* runtime measurement and observability layers,
+* governance and orchestration systems,
+* agents and multi-agent architectures,
+* audit and forensic systems,
+* evidence qualification or anchoring layers.
 
----
+The objective is **not** to define a universal AI governance standard.
 
-## Principes
-
-- L’observation runtime reste distincte de l’ancrage de preuve
-- L’autorité de gouvernance reste distincte de l’autorité de mesure
-- Chaque couche doit déclarer explicitement sa portée observationnelle et ses limites
-- Les signaux doivent rester exploitables à la fois par les machines et par les humains
-- Minimalisme d’abord, complexité ensuite
+The objective is to establish a small set of explicit, inspectable, machine-readable semantics allowing independent systems to exchange and interpret runtime signals while preserving their own architecture, function, and authority.
 
 ---
 
-## Exemple minimal de `measurement_surface`
+## Core principle
+
+A measurement layer should not need to control the infrastructure it observes.
+
+A governance layer should not need to implement the measurement system that produces its signals.
+
+An audit or evidence layer should not need to become the runtime authority.
+
+Each layer can remain independent while exchanging explicitly scoped signals through a common boundary contract.
+
+This enables architectures that are:
+
+* composable,
+* replaceable,
+* inspectable,
+* extensible,
+* interoperable.
+
+---
+
+## Separation of responsibilities
+
+The contract assumes a strict separation between several functions.
+
+### Measurement / OBS
+
+Produces runtime measurements and behavioral signals.
+
+Examples:
+
+* stability,
+* `G`,
+* `delta_G`,
+* coherence,
+* behavioral variation,
+* regime transitions,
+* runtime anomalies.
+
+Measurement describes an observed state or transition.
+
+It does not, by itself, determine what an application must do.
+
+---
+
+### Governance / GOV
+
+Consumes signals and applies application-specific rules, policies, thresholds, or orchestration logic.
+
+Possible outcomes may include:
+
+* `ALLOW`,
+* `FLAG`,
+* `REVIEW`,
+* `BLOCK`,
+* rerouting,
+* fallback,
+* escalation.
+
+Governance authority remains external to the measurement layer.
+
+---
+
+### Runtime systems
+
+Agents, orchestrators, applications, gateways, inference systems, or other infrastructures can consume the signals according to their own requirements.
+
+The same measurement signal may therefore support multiple independent uses.
+
+---
+
+### Evidence / audit layers
+
+Evidence systems may preserve, qualify, timestamp, reconstruct, or anchor runtime events.
+
+Observation and evidence anchoring remain distinct responsibilities.
+
+---
+
+## Interoperability principles
+
+1. **Measurement authority and governance authority remain separate.**
+
+2. **Runtime observation and evidence anchoring remain separate.**
+
+3. **Every measurement layer must explicitly declare its observation surface and limitations.**
+
+4. **Signals should be interpretable by both machines and humans.**
+
+5. **Consumers remain responsible for the decisions they derive from measurement signals.**
+
+6. **The contract should remain minimal before becoming complex.**
+
+7. **Interoperability should not require architectural dependency on a specific downstream or upstream system.**
+
+---
+
+## `measurement_surface`
+
+A runtime signal is only meaningful if the system also declares what it was actually capable of observing.
+
+The `measurement_surface` object describes this observation boundary.
+
+### Minimal example
 
 ```json
 {
@@ -48,108 +146,183 @@ L’objectif n’est pas de créer un standard global de gouvernance IA, mais de
 }
 ```
 
-L’objectif de measurement_surface n’est pas de prétendre observer l’intégralité du modèle ou de son raisonnement interne, mais de déclarer explicitement la surface de mesure réellement observable à partir de laquelle les signaux runtime sont produits.
-Tu pourras ajouter progressivement :
+`measurement_surface` does not claim complete visibility into a model or its internal reasoning.
+
+Its purpose is to explicitly declare the observable surface from which runtime measurements are produced.
+
+This makes the scope and limitations of each signal inspectable.
+
+---
+
+## Boundary semantics
+
+The contract is intended to describe the semantic boundary between independent layers.
+
+A simplified architecture can be represented as:
+
+```text
+AI SYSTEM / AGENT / ORCHESTRATOR
+              │
+              ▼
+        RUNTIME EXECUTION
+              │
+              ▼
+       MEASUREMENT / OBS
+              │
+        runtime signals
+              │
+              ▼
+   INTEROPERABILITY CONTRACT
+        │        │        │
+        ▼        ▼        ▼
+      GOV      AUDIT    FORENSIC
+        │
+        ▼
+  APPLICATION ACTION
+```
+
+The measurement layer produces signals.
+
+The interoperability contract defines how those signals are described and exchanged.
+
+Other infrastructures decide how to consume them.
+
+---
+
+## Why this matters
+
+A common runtime measurement layer can support multiple uses without requiring those uses to share the same architecture.
+
+For example, the same signals may contribute to:
+
+* runtime monitoring,
+* behavioral drift detection,
+* AI governance,
+* agent supervision,
+* production readiness,
+* forensic reconstruction,
+* audit workflows,
+* post-deployment oversight,
+* optimization systems.
+
+The contract therefore does not define the use case.
+
+It defines the **boundary through which different use cases can consume a common measurement signal**.
+
+---
 
 ## `/examples`
-Exemples de :
-- ALLOW
-- FLAG
-- drift
-- transitions de régime
+
+This directory may progressively contain minimal end-to-end examples such as:
+
+* `ALLOW`,
+* `FLAG`,
+* behavioral drift,
+* regime transitions,
+* degraded measurement visibility,
+* unresolved signals.
+
+Examples should remain small enough to be independently inspected and reproduced.
 
 ---
 
 ## `/notes`
-Réflexions ouvertes sur :
-- continuity
-- unresolved_signals
-- degradation observationnelle
-- perturbations runtime
+
+Open methodological notes may cover concepts such as:
+
+* continuity,
+* `unresolved_signals`,
+* observational degradation,
+* runtime perturbations,
+* measurement boundaries,
+* semantic compatibility.
+
+These notes are exploratory and should not automatically be interpreted as stable elements of the contract.
 
 ---
 
 ## `/cross-layer`
-Pour les liens futurs avec :
-- EVIDE
-- visibility_surface
-- unresolved_signals
-- boundary semantics
+
+This directory may document experimental or future relationships with concepts such as:
+
+* EVIDE,
+* `visibility_surface`,
+* `unresolved_signals`,
+* boundary semantics,
+* evidence qualification,
+* forensic reconstruction.
+
+Cross-layer concepts should preserve the separation between measurement, governance, execution, and evidence.
 
 ---
 
-# Le point important
+## Design philosophy
 
-Ce repo ne doit PAS devenir :
-> “la théorie ultime de l’IA”.
+This repository deliberately avoids attempting to describe a complete theory or architecture of artificial intelligence.
 
-😄
+Its scope is narrower:
 
-Il doit rester :
-- simple,
-- lisible,
-- crédible,
-- extensible,
-- méthodologiquement propre.
+> Define the smallest useful semantic contract allowing runtime measurement signals to move cleanly between independent AI infrastructures.
 
+The contract should remain:
+
+* simple,
+* readable,
+* inspectable,
+* extensible,
+* implementation-independent,
+* methodologically explicit.
+
+---
+
+## Conceptual map
+
+```text
 OBS
-
-→ mesure
+→ measurement
 
 GOV
-
-→ orchestration / décision
+→ policy / orchestration / decision
 
 Runtime Signals
+→ behavioral telemetry
 
-→ télémétrie
+Runtime Interoperability Contract
+→ boundary semantics
+```
 
-Interoperability Contract
+Together, these elements can support heterogeneous infrastructures including:
 
-→ sémantique de frontière
+* agents,
+* orchestrators,
+* governance systems,
+* audit systems,
+* forensic layers,
+* monitoring platforms,
+* optimization engines.
 
-Et ça commence à former quelque chose de cohérent pour :
+---
 
-agents,
-orchestrateurs,
-couches forensic,
-gouvernance,
-audit.
-Et là il y a un point très fort
+## Status
 
-Tu ne construis pas :
+This repository is experimental and evolving.
 
-“un système fermé.”
+The immediate priority is to:
 
-Tu construis :
+1. stabilize the minimal concepts,
+2. maintain clean boundaries between responsibilities,
+3. avoid claims beyond the observable measurement surface,
+4. publish simple interoperable examples,
+5. allow real-world integrations to reveal which semantics are actually necessary.
 
-une couche observable et interopérable.
+Complexity should be introduced only when demonstrated by implementation needs.
 
-Et ça, dans les architectures modernes, c’est beaucoup plus puissant.
+---
 
-Parce que :
+## Long-term direction
 
-remplaçable,
-composable,
-inspectable,
-branchable.
+The objective is not to build a closed system.
 
-C’est exactement le type d’architecture qui peut devenir :
+It is to make runtime measurement **observable, consumable, and interoperable** across heterogeneous AI infrastructures.
 
-adoptable,
-extensible,
-standardisable plus tard.
-La bonne nouvelle
-
-Tu n’as pas besoin de résoudre tout ça maintenant.
-
-Le plus important :
-
-figer les concepts minimaux,
-garder les frontières propres,
-éviter les promesses excessives,
-produire des exemples simples,
-laisser les usages révéler les vrais besoin
-
-Et honnêtement :
-pour un V0, ce que tu fais là est déjà très sérieux.
+If the minimal contract proves useful across independent implementations, its semantics can progressively become more stable, reusable, and potentially standardizable.
